@@ -18,6 +18,9 @@ class IssueCategory(models.Model):
     class Meta:
         managed = True
         db_table = 'issue_category'
+        verbose_name = 'Issue Category'
+        verbose_name_plural = 'Issue Categories'
+        
 
     def __str__(self):
         return self.name
@@ -31,6 +34,8 @@ class IssueStatus(models.Model):
     class Meta:
         managed = True
         db_table = 'issue_status'
+        verbose_name = 'Issue Status'
+        verbose_name_plural = 'Issue Statuses'
 
     def __str__(self):
         return self.name
@@ -38,27 +43,30 @@ class IssueStatus(models.Model):
 
 class IssueIssue(models.Model):
     """
+    Issue
     """
 
     @staticmethod
     def defaultcategory():
         """Provide a default category for issue"""
-        #TODO: Provide a category number that really exists, don't guess
-        return 1
+        #NOTE: Takes the first category set as default. If there are more of these, it takes whichever is first.
+        c = IssueCategory.objects.filter(default=True)
+        if len(c) > 0:
+            return c[0].id
 
     @staticmethod
     def defaultreporter():
         """Provide default reporter, in case one isn't provided"""
-        #TODO Provide real reporter, don't guess
+        #NOTE: Takes the first reporter.
         return 1
 
     @staticmethod
     def defaultstatus():
         """Provide default status, in case one isn't provided"""
+        #NOTE: Takes the first status set as default. If there are more of these, it takes whichever is first.
         s = IssueStatus.objects.filter(default=True)
         if len(s) > 0:
             return s[0].id
-    #NOTE: Takes the first status set as default. If there are more of these, it takes whichever is first. 
 
 
     id = models.BigAutoField(primary_key=True)
@@ -74,6 +82,8 @@ class IssueIssue(models.Model):
     class Meta:
         managed = True
         db_table = 'issue_issue'
+        verbose_name = 'Issue'
+        verbose_name_plural = 'Issues'
 
     def __str__(self):
         return self.description
