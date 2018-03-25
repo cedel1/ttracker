@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.core.exceptions import PermissionDenied 
 from .models import IssueCategory, IssueStatus, IssueIssue
-from datetime import datetime, timedelta
+from datetime import datetime
 
 class IssueCategoryAdmin(admin.ModelAdmin):
     fields = (('name', 'default'),)
@@ -84,6 +85,14 @@ class IssueIssueAdmin(admin.ModelAdmin):
             else:
                 obj.solved = None
         super().save_model(request, obj, form, change)
+
+    def save_form(self, request, form, change):
+        obj = super().save_form(request, form, change)
+
+        if not self._has_change_only_permission(request, obj):
+            raise PermissionDenied
+
+        return obj
 
 admin.site.register(IssueCategory, IssueCategoryAdmin)
 admin.site.register(IssueStatus, IssueStatusAdmin)
