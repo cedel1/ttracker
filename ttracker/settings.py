@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_view_permission',
     'ttrackerapp.apps.TtrackerappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,3 +124,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Setting which models should recieve the admin_view_permission
+ADMIN_VIEW_PERMISSION_MODELS = [
+    'auth.User',
+    'ttrackerapp.IssueIssue'
+]
