@@ -1,0 +1,19 @@
+TODO
+
+-   describe installation
+-   write tests
+-   consider writing custom validators for values users enter
+-   there should be only one default value for IssueCategory and IssueStatus,
+    so:
+
+    a.  write a custom object save function that will delete default setting
+        on other objects of the same kind
+    b.  alert the user, that saving his object wiht default "on" will
+        remove default on other objects
+    
+    or just write a custom form...
+-   consider adding "closes_issue" to certain statuses - putting Issue to that
+    status would automatically close it and removing the status would reopen
+    the issue
+-   consider issue reporter to be non-selectable, beeing set automatically,
+    to the user that actually created the issue
