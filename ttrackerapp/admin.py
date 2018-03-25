@@ -20,6 +20,8 @@ class IssueIssueAdmin(admin.ModelAdmin):
          ),
         (None, {'fields': ['description']})
         ]
+    list_display = ('description', 'reporter', 'owner', 'status', 'category', 'created', 'solved', 'is_solved')
+    save_on_top = True
     view_on_site = False
 
     class Media:
