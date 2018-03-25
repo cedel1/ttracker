@@ -8,6 +8,7 @@
 from django.db import models
 from django.conf import settings
 from django.conf.urls.static import static
+from django.db.models import Avg, Max, Min, F
 
 
 class IssueCategory(models.Model):
@@ -87,4 +88,28 @@ class IssueIssue(models.Model):
 
     def __str__(self):
         return self.description
+
+    @classmethod
+    def get_longest_resolution(cls):
+        """
+        Return the longest issue resolution time
+        """
+        result = IssueIssue.objects.aggregate(longest=Max(F('solved') - F('created')))
+        return result['longest']
+
+    @classmethod
+    def get_shortest_resolution(cls):
+        """
+        Return the shortest issue resolution time
+        """
+        result = IssueIssue.objects.aggregate(shortest=Min(F('solved') - F('created')))
+        return result['shortest']
+
+    @classmethod
+    def get_average_resolution(cls):
+        """
+        Return the average issue resolution time
+        """
+        result = IssueIssue.objects.aggregate(average=Avg(F('solved') - F('created')))
+        return result['average']
 
