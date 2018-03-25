@@ -33,7 +33,7 @@
                 <td>&nbsp;</td>
             {% endif %}
 
-            {% if perms.ttrackerapp.view_issueissue and model.admin_url %}
+            {% if perms.ttrackerapp.view_issueissue and model.admin_url and not perms.ttrackerapp.change_issueissue %}
                 <td>&nbsp;</td>
             {% elif model.admin_url %}
                 <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
