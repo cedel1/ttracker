@@ -1,20 +1,23 @@
 from django.contrib import admin
 from .models import IssueCategory, IssueStatus, IssueIssue
+from datetime import datetime, timedelta
 
 class IssueCategoryAdmin(admin.ModelAdmin):
     fields = (('name', 'default'),)
     view_on_site = False
+    list_display = ('name', 'default')
 
 class IssueStatusAdmin(admin.ModelAdmin):
     fields = (('name', 'default'),)
     view_on_site = False
+    list_display = ('name', 'default')
 
 class IssueIssueAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields':
                     [('reporter', 'owner'),
                      ('status', 'category'),
-                     ('created', 'is_solved', 'solved')
+                     ('created', 'is_solved')
                      ]
                 }
          ),
@@ -50,8 +53,22 @@ class IssueIssueAdmin(admin.ModelAdmin):
     def question_if_none(self, result):
         """
         Return question mark if result is None
+        
+        @param result: timedelta
         """
-        return result if result is not None else "?"
+        return self.format_timedelta(result) if result is not None else "-"
+
+    def format_timedelta(self, tdelta):
+        """
+        Format timedelta to suitable string
+        
+        @param tdelta: timedelta to format
+        """
+        s = tdelta.total_seconds()
+        days, remainder = divmod(s, 3600*24)
+        hours, remainder = divmod(remainder, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return ('{:d} days, {:0=2d}:{:0=2d}:{:0=2d}'.format(int(days), int(hours), int(minutes), int(seconds)))
 
     def changelist_view(self, request, extra_context = None):
         extra_context = extra_context or {}
@@ -59,6 +76,14 @@ class IssueIssueAdmin(admin.ModelAdmin):
         extra_context['issue_longest'] = self.get_longest_issue()
         extra_context['issue_shortest'] = self.get_shoretest_issue()
         return super().changelist_view(request, extra_context=extra_context)
+
+    def save_model(self, request, obj, form, change):
+        if request.method == 'POST':
+            if 'is_solved' in request.POST.keys() and request.POST['is_solved'] == 'on':
+                obj.solved = datetime.now()
+            else:
+                obj.solved = None
+        super().save_model(request, obj, form, change)
 
 admin.site.register(IssueCategory, IssueCategoryAdmin)
 admin.site.register(IssueStatus, IssueStatusAdmin)
