@@ -1,0 +1,18 @@
+#issue_resolution_stats {
+    margin: 10px 0;
+    padding: 5px;
+    background-color: #79aec8;
+    color: #dadada;
+}
+
+.stats_header {
+    padding: 0 10px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.stats_value {
+    padding: 0 10px 0 0;
+    color: #ffffff;
+    font-weight: bold; 
+}

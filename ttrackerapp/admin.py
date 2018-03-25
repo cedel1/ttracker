@@ -22,6 +22,11 @@ class IssueIssueAdmin(admin.ModelAdmin):
         ]
     view_on_site = False
 
+    class Media:
+        css = {
+             'all': ('admin/css/issue_stats.css',)
+        }
+
     def get_average_issue(self):
         """
         Get average issue resolution time

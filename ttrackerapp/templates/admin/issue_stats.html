@@ -1,8 +1,8 @@
 {% block issue_stats %}
-    <div class="caption">
-        Issue resolution time:&nbsp;
-        average:&nbsp;{{ issue_average }},
-        shortest:&nbsp;{{ issue_shortest }},
-        longest:&nbsp;{{ issue_longest }}
+    <div id="issue_resolution_stats">
+        <span class="stats_header">Issue resolution time:</span>
+        average:&nbsp;<span class="stats_value">{{ issue_average }}</span>
+        shortest:&nbsp;<span class="stats_value">{{ issue_shortest }}</span>
+        longest:&nbsp;<span class="stats_value">{{ issue_longest }}</span>
     </div>
 {% endblock %}
