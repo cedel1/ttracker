@@ -20,9 +20,12 @@ The following configuration is for development purposes only, once complete
 
 2.  Go to your projects directory (cd ~/Workspace ) and find the just created
     project directory. It will be named ttracker, if you used the
-    `mkproject ttracker` command.
+    `mkproject ttracker` command. Also, `mkproject projectname` command will 
+    directly activate you new virtual environment and point you shell to the
+    newly created project dir, so all you might have to run is `cd ..`.
 
-3.  Delete the ttracker directory.
+3.  Delete the ttracker directory, for example using the following command:
+    `rmdir ttracker`.
 
 4.  While in projects directory (~/Workspace ), clone the project from GitHub,
     using command `git clone https://github.com/cedel1/ttracker.git`.
@@ -38,30 +41,43 @@ The following configuration is for development purposes only, once complete
     databases. So create one, unless you already have one that you want to use.
     Let's suppose you name your user `testracker`.
 
-8.  Create a database and name it `ttracker`. Really, any name would do, but
-    using `ttracker` will save you the effort of changing the name in django app
-    configuration later.
+8.  Create a database and name it `ttracker`.
+    It should be owned by `testtracker` user.
+    Really, any name would do, but using `ttracker` will save you the effort
+    of changing the name in django app configuration later.
 
-9.  Open ~/Workspace/ttracker/settings.py file and change the DATABASES section
-    to point it to your postgresql server instance and user created in points
-    6-8.
+9.  Open ~/Workspace/ttracker/ttracker/settings.py file and change
+    the DATABASES section to point it to your postgresql server instance
+    and user created in points 6-8.
     Set the 'NAME', 'USER', 'PASSWORD', 'HOST' and 'PORT' properties.
     If more info is required, see
     `https://docs.djangoproject.com/en/2.0/intro/tutorial02/`.
 
-10. Go to ttracker directory (~/Workspace/ttracker/) and run the following
+10. Go to ttracker directory (~/Workspace/ttracker) and run the following
     command:
     python manage.py migrate
     That should have created all the necessary table in your database.
 
-11. Now populate the database with data. Run:
+11. Since we want to poulate the database with sample data, it has to be cleared
+    first. From your virtealenv shell run:
+    "DROP table django_content_type, auth_group_permissions, auth_permission, auth_user_groups, issue_status, auth_user, django_session, auth_group, issue_category, django_admin_log, issue_issue, auth_user_user_permissions RESTART IDENTITY CASCADE;" | python manage.py dbshell
+    This expects that you have `psql` on your path.
+    No, command `python manage.py flush` does not clear all tables,
+    some tables get populated with hooks - and that conflicts with fixture data.
+
+12. Now populate the database with data. Run:
     python manage.py loaddata initial_data.json
 
-12. To see the app running run the following command:
+13. To see the app running run the following command:
     python manage.py runserver
     ands the point your browser to http://127.0.0.1:8000/admin
+    Available users are:
+    superuser, password is adminadmin
+    staff, password is staffstaff
 
-13. Enjoy :)
+14. Enjoy :)
+
+
 
 Any questions please ask.
 
