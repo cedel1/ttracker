@@ -47,7 +47,6 @@ class IssueIssue(models.Model):
     Issue
     """
 
-    @staticmethod
     def defaultcategory():
         """Provide a default category for issue"""
         #NOTE: Takes the first category set as default. If there are more of these, it takes whichever is first.
@@ -55,13 +54,11 @@ class IssueIssue(models.Model):
         if len(c) > 0:
             return c[0].id
 
-    @staticmethod
     def defaultreporter():
         """Provide default reporter, in case one isn't provided"""
         #NOTE: Takes the first reporter.
         return 1
 
-    @staticmethod
     def defaultstatus():
         """Provide default status, in case one isn't provided"""
         #NOTE: Takes the first status set as default. If there are more of these, it takes whichever is first.
@@ -76,9 +73,9 @@ class IssueIssue(models.Model):
     description = models.TextField()
     status = models.ForeignKey('IssueStatus', models.PROTECT, db_column='status', default=defaultstatus)
     category = models.ForeignKey('IssueCategory', models.PROTECT, db_column='category', default=defaultcategory)
-    created = models.DateTimeField()
-    is_solved = models.BooleanField()
-    solved = models.DateTimeField(blank=True, null=True)
+    created = models.DateTimeField(verbose_name='Date created')
+    is_solved = models.BooleanField(verbose_name='Solved')
+    solved = models.DateTimeField(blank=True, null=True, verbose_name='Date solved')
 
     class Meta:
         managed = True
