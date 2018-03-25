@@ -94,6 +94,9 @@ class IssueIssueAdmin(admin.ModelAdmin):
 
         return obj
 
+admin.site.site_title = 'Test Tracker administration'
+admin.site.site_header = 'Test Tracker administration'
+admin.site.index_title = 'Test Tracker administration'
 admin.site.register(IssueCategory, IssueCategoryAdmin)
 admin.site.register(IssueStatus, IssueStatusAdmin)
 admin.site.register(IssueIssue, IssueIssueAdmin)
